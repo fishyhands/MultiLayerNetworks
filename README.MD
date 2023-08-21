@@ -1,3 +1,3 @@
 # URECA PROJECT
-## Competitive spreading of opinions in multiplex networks
+Competitive spreading of opinions in multiplex networks
 
