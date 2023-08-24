@@ -2,10 +2,9 @@
 
 import matplotlib.pyplot as plt
 import networkx as nx 
-import random as rand
 
 graph = nx.Graph()
-# Undirected graph
+
 
 def links_finder(matrix):
     position = []
@@ -30,7 +29,7 @@ matrix = ([0,1,1,0],
           [0,1,0,0]
 )
 
-
+# Undirected graph
 links = links_finder(matrix)
 nodes = noofNodes(links)
 graph.add_nodes_from(nodes)
