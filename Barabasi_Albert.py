@@ -2,31 +2,33 @@
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import networkx as nx  
-import random as rand
-import ndlib.models.ModelConfig as mc
-import ndlib.models.epidemics as ep
-from ndlib.viz.mpl.DiffusionTrend import DiffusionTrend
 import ndlib.models.CompositeModel as gc
 import ndlib.models.compartments as cpm
 import ndlib.models.compartments.ConditionalComposition as cif
+import powerlaw as pl
+
 mpl.use('TkAgg')
-"""
+
 ## Create Graph
-nodes = 5000
+nodes = 500
 edges = 2
 
 G = nx.barabasi_albert_graph(nodes,edges)
 while any(degree < 2 for node, degree in G.degree()): # minimum nodal degree of 2
     G = nx.barabasi_albert_graph(nodes,edges)
+deg = dict(nx.degree(G))
+deg = list(deg.values())
+fit = pl.Fit(deg, discrete=True)
+fit.distribution_compare('power_law', 'lognormal')
 
+
+"""
 plt.figure(figsize=(90,65))
 nx.draw(G, with_labels = False)
 plt.title("Scale-Free Graph, minimum nodal degree = 2")
 plt.show()
 min_degree = min(dict(G.degree()).values())
 print(min_degree)
-
-
 ## Model configuration
 model = gc.CompositeModel(G)
 
@@ -81,19 +83,4 @@ model.add_rule("S","2",check1)
 model.add_rule("S","B",check1)
 model.add_rule("1","S",c_recover1)
 model.add_rule("2","S",c_recover2)
-
-config = mc.Configuration()
-infected1 = rand.sample(range(0,5001),125)
-infected2 = rand.sample(set(range(0,5001)) - set(infected1),125)
-config.add_model_initial_configuration("1", infected1)
-config.add_model_initial_configuration("2", infected2)
 """
-minDegree = 0
-print("Creating Sequence")
-sequence = nx.utils.powerlaw_sequence(101,3) # 5000 nodes, exponent of 3
-G = nx.configuration_model(sequence)
-G=nx.Graph(G)
-G.remove_edges_from(G.selfloop_edges())
-hist = nx.degree_histogram(G)
-plt.figure(figsize=(60,40))
-plt.show()
